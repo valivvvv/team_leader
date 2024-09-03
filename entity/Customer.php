@@ -1,12 +1,14 @@
 <?php
 
+namespace entity;
+
 class Customer {
-    public int $id;
+    public string $id;
     public string $name;
     public string $since;
-    public float $revenue;
+    public string $revenue;
 
-    public function __construct(int $id, string $name, string $since, float $revenue) {
+    public function __construct(string $id, string $name, string $since, string $revenue) {
         $this->id = $id;
         $this->name = $name;
         $this->since = $since;

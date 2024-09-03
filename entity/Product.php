@@ -1,12 +1,14 @@
 <?php
 
-class Product {
-    public int $id;
-    public string $description;
-    public int $category;
-    public float $price;
+namespace entity;
 
-    public function __construct(int $id, string $description, int $category, float $price) {
+class Product {
+    public string $id;
+    public string $description;
+    public string $category;
+    public string $price;
+
+    public function __construct(string $id, string $description, string $category, string $price) {
         $this->id = $id;
         $this->description = $description;
         $this->category = $category;
