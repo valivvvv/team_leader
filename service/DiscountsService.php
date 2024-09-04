@@ -2,22 +2,20 @@
 
 namespace service;
 
+use entity\DiscountedOrder;
 use entity\Order;
-use repository\CustomerRepository;
-use repository\ProductRepository;
+use service\Discounts\WholeOrderDiscount;
 
 class DiscountsService
 {
-    public static function getDiscounts(array $order)
-    {
-        print_r(new Order(
-            $order['id'],
-            $order['customer-id'],
-            $order['items'],
-            $order['total']
-        ));
+    private const REVENUE_THRESHOLD = '1000';
 
-        print_r(CustomerRepository::findById('1'));
-        print_r(ProductRepository::findById('A101'));
+    public static function getDiscounts(Order $order): DiscountedOrder
+    {
+        $discountedOrder = new DiscountedOrder($order);
+
+        $discountedOrder = WholeOrderDiscount::applyDiscount($discountedOrder);
+
+        return $discountedOrder;
     }
 }

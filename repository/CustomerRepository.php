@@ -11,15 +11,22 @@ class CustomerRepository
         $json = file_get_contents(__DIR__ . '/../data/customers.json');
         $customers = json_decode($json, true);
 
-        $customer = array_filter($customers, static function (array $customer) use ($id) {
-            return $customer['id'] === $id;
-        })[0]; // TODO: handle not found
+        $foundCustomer = null;
+
+        foreach ($customers as $customer) {
+            if ($customer['id'] === $id) {
+                $foundCustomer = $customer;
+                break;
+            }
+        }
+
+        // TODO: handle not found customer
 
         return new Customer(
-            $customer['id'],
-            $customer['name'],
-            $customer['since'],
-            $customer['revenue']
+            $foundCustomer['id'],
+            $foundCustomer['name'],
+            $foundCustomer['since'],
+            $foundCustomer['revenue']
         );
     }
 }
