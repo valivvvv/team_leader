@@ -4,10 +4,10 @@ namespace entity;
 
 class DiscountedOrder
 {
-    public Order $order;
-    public bool $isDiscounted;
-    public string $discountedTotal;
-    public array $discountMessages;
+    private Order $order;
+    private bool $isDiscounted;
+    private string $discountedTotal;
+    private array $discountMessages;
 
     public function __construct(Order $order)
     {
@@ -17,10 +17,19 @@ class DiscountedOrder
         $this->discountMessages = [];
     }
 
-    public function applyDiscount(string $discountedTotal, string $discountMessage): void
+    public function getOrder(): Order
     {
-        $this->isDiscounted = true;
-        $this->discountedTotal = $discountedTotal;
-        $this->discountMessages[] = $discountMessage;
+        return $this->order;
+    }
+
+    public function applyDiscount(int $discountPercent, string $discountMessage): DiscountedOrder
+    {
+        $discountedOrder = new DiscountedOrder($this->order);
+
+        $discountedOrder->isDiscounted = true;
+        $discountedOrder->discountedTotal = $this->discountedTotal * (1 - $discountPercent / 100);
+        $discountedOrder->discountMessages = [...$this->discountMessages, $discountMessage];
+
+        return $discountedOrder;
     }
 }

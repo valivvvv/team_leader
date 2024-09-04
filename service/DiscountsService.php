@@ -8,7 +8,6 @@ use service\Discounts\WholeOrderDiscount;
 
 class DiscountsService
 {
-    private const REVENUE_THRESHOLD = '1000';
 
     public static function getDiscounts(Order $order): DiscountedOrder
     {
