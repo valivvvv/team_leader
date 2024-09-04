@@ -3,10 +3,10 @@
 namespace entity;
 
 class OrderItem {
-    public string $productId;
-    public string $quantity;
-    public string $unitPrice;
-    public string $total;
+    private string $productId;
+    private string $quantity;
+    private string $unitPrice;
+    private string $total;
 
     public function __construct(string $productId, string $quantity, string $unitPrice, string $total) {
         $this->productId = $productId;

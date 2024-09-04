@@ -13,7 +13,7 @@ class DiscountedOrder
     {
         $this->order = $order;
         $this->isDiscounted = false;
-        $this->discountedTotal = $order->total;
+        $this->discountedTotal = $order->getTotal();
         $this->discountMessages = [];
     }
 

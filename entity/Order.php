@@ -4,10 +4,10 @@ namespace entity;
 
 class Order
 {
-    public string $id;
-    public string $customerId;
-    public array $items;
-    public string $total;
+    private string $id;
+    private string $customerId;
+    private array $items;
+    private string $total;
 
     public function __construct(string $id, string $customerId, array $items, string $total)
     {
@@ -22,5 +22,15 @@ class Order
             );
         }, $items);
         $this->total = $total;
+    }
+
+    public function getTotal(): string
+    {
+        return $this->total;
+    }
+
+    public function getCustomerId(): string
+    {
+        return $this->customerId;
     }
 }

@@ -3,10 +3,10 @@
 namespace entity;
 
 class Product {
-    public string $id;
-    public string $description;
-    public string $category;
-    public string $price;
+    private string $id;
+    private string $description;
+    private string $category;
+    private string $price;
 
     public function __construct(string $id, string $description, string $category, string $price) {
         $this->id = $id;

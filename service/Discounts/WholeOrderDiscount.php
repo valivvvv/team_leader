@@ -13,9 +13,9 @@ class WholeOrderDiscount
 
     public static function applyDiscount(DiscountedOrder $discountedOrder): DiscountedOrder
     {
-        $customer = CustomerRepository::findById($discountedOrder->getOrder()->customerId);
+        $customer = CustomerRepository::findById($discountedOrder->getOrder()->getCustomerId());
 
-        if ((float)$customer->revenue > (float)self::REVENUE_THRESHOLD) {
+        if ((float)$customer->getRevenue() > (float)self::REVENUE_THRESHOLD) {
             $discountedOrder = $discountedOrder->applyDiscount(
                 self::DISCOUNT_PERCENT,
                 self::DISCOUNT_MESSAGE

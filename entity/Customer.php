@@ -3,10 +3,10 @@
 namespace entity;
 
 class Customer {
-    public string $id;
-    public string $name;
-    public string $since;
-    public string $revenue;
+    private string $id;
+    private string $name;
+    private string $since;
+    private string $revenue;
 
     public function __construct(string $id, string $name, string $since, string $revenue) {
         $this->id = $id;
@@ -15,4 +15,8 @@ class Customer {
         $this->revenue = $revenue;
     }
 
+    public function getRevenue(): string
+    {
+        return $this->revenue;
+    }
 }
