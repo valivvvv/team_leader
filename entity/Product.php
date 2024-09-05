@@ -15,4 +15,13 @@ class Product {
         $this->price = $price;
     }
 
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    public function getCategory(): string
+    {
+        return $this->category;
+    }
 }

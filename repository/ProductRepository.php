@@ -11,15 +11,23 @@ class ProductRepository
         $json = file_get_contents(__DIR__ . '/../data/products.json');
         $products = json_decode($json, true);
 
-        $product = array_filter($products, static function (array $product) use ($id) {
-            return $product['id'] === $id;
-        })[0]; // TODO: handle not found
+        $foundProduct = null;
+
+        foreach ($products as $product) {
+            if ($product['id'] === $id) {
+                $foundProduct = $product;
+                break;
+            }
+        }
+
+        // TODO: handle not found customer
+
 
         return new Product(
-            $product['id'],
-            $product['description'],
-            $product['category'],
-            $product['price']
+            $foundProduct['id'],
+            $foundProduct['description'],
+            $foundProduct['category'],
+            $foundProduct['price']
         );
     }
 }

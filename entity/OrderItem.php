@@ -15,4 +15,24 @@ class OrderItem {
         $this->total = $total;
     }
 
+    public function getProductId(): string
+    {
+        return $this->productId;
+    }
+
+    public function getQuantity(): string
+    {
+        return $this->quantity;
+    }
+
+    public function getUnitPrice(): string
+    {
+        return $this->unitPrice;
+    }
+
+    public function getTotal(): string
+    {
+        return $this->total;
+    }
+
 }

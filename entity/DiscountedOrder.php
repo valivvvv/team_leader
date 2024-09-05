@@ -26,8 +26,21 @@ class DiscountedOrder
     {
         $discountedOrder = new DiscountedOrder($this->order);
 
-        $discountedOrder->isDiscounted = true;
         $discountedOrder->discountedTotal = $this->discountedTotal * (1 - $discountPercent / 100);
+
+        $discountedOrder->isDiscounted = true;
+        $discountedOrder->discountMessages = [...$this->discountMessages, $discountMessage];
+
+        return $discountedOrder;
+    }
+
+    public function addItemQuantity(string $productId, int $quantityToAdd, string $discountMessage): DiscountedOrder
+    {
+        $order = $this->order->addItemQuantity($productId, $quantityToAdd);
+
+        $discountedOrder = new DiscountedOrder($order);
+
+        $discountedOrder->isDiscounted = true;
         $discountedOrder->discountMessages = [...$this->discountMessages, $discountMessage];
 
         return $discountedOrder;
