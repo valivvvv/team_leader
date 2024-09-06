@@ -10,6 +10,7 @@ require_once __DIR__ . '/repository/CustomerRepository.php';
 require_once __DIR__ . '/repository/ProductRepository.php';
 require_once __DIR__ . '/service/DiscountsService.php';
 require_once __DIR__ . '/service/Discounts/SwitchesDiscount.php';
+require_once __DIR__ . '/service/Discounts/ToolsDiscount.php';
 require_once __DIR__ . '/service/Discounts/WholeOrderDiscount.php';
 
 use entity\Order;

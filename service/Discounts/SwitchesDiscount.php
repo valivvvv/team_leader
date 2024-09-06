@@ -10,7 +10,7 @@ use repository\ProductRepository;
 class SwitchesDiscount
 {
     private const REQUIRED_QUANTITY = 5;
-    private const DISCOUNT_MESSAGE = 'For every product of category "Switches" (id 2), when you buy five, you get a sixth for free.';
+    private const DISCOUNT_MESSAGE = 'For every product of category "Switches", when you buy five, you get a sixth for free.';
 
     public static function applyDiscount(DiscountedOrder $discountedOrder): DiscountedOrder
     {

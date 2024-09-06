@@ -22,11 +22,23 @@ class DiscountedOrder
         return $this->order;
     }
 
-    public function applyDiscount(int $discountPercent, string $discountMessage): DiscountedOrder
+    public function applyDiscountPercent(int $discountPercent, string $discountMessage): DiscountedOrder
     {
         $discountedOrder = new DiscountedOrder($this->order);
 
         $discountedOrder->discountedTotal = $this->discountedTotal * (1 - $discountPercent / 100);
+
+        $discountedOrder->isDiscounted = true;
+        $discountedOrder->discountMessages = [...$this->discountMessages, $discountMessage];
+
+        return $discountedOrder;
+    }
+
+    public function applyDiscountValue(float $discountValue, string $discountMessage): DiscountedOrder
+    {
+        $discountedOrder = new DiscountedOrder($this->order);
+
+        $discountedOrder->discountedTotal = $this->discountedTotal - $discountValue;
 
         $discountedOrder->isDiscounted = true;
         $discountedOrder->discountMessages = [...$this->discountMessages, $discountMessage];
