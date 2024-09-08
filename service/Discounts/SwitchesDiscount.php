@@ -5,6 +5,7 @@ namespace service\Discounts;
 use entity\Category;
 use entity\DiscountedOrder;
 use entity\OrderItem;
+use entity\ValueObjects\Quantity;
 use repository\ProductRepository;
 
 class SwitchesDiscount
@@ -19,8 +20,13 @@ class SwitchesDiscount
 
             $product = ProductRepository::findById($orderItem->getProductId());
 
-            if ($product->getCategory() === Category::SWITCHES && $orderItem->getQuantity() >= self::REQUIRED_QUANTITY) {
-                $quantityToAdd = intdiv($orderItem->getQuantity(), self::REQUIRED_QUANTITY);
+            if (
+                $product->getCategory() === Category::SWITCHES
+                && $orderItem->getQuantity()->greaterThanOrEqual(self::REQUIRED_QUANTITY)
+            ) {
+                $quantityToAdd = Quantity::make(
+                    intdiv($orderItem->getQuantity()->getQuantity(), self::REQUIRED_QUANTITY)
+                );
 
                 $discountedOrder = $discountedOrder->addItemQuantity(
                     $product->getId(),

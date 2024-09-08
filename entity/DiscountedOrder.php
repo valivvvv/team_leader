@@ -3,6 +3,7 @@
 namespace entity;
 
 use entity\ValueObjects\Money;
+use entity\ValueObjects\Quantity;
 
 class DiscountedOrder
 {
@@ -53,7 +54,7 @@ class DiscountedOrder
         );
     }
 
-    public function addItemQuantity(string $productId, int $quantityToAdd, string $discountMessage): DiscountedOrder
+    public function addItemQuantity(string $productId, Quantity $quantityToAdd, string $discountMessage): DiscountedOrder
     {
         return new DiscountedOrder(
             $this->order->addItemQuantity($productId, $quantityToAdd),

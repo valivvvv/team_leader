@@ -18,13 +18,10 @@ require_once __DIR__ . '/service/Discounts/WholeOrderDiscount.php';
 use entity\Order;
 use service\DiscountsService;
 
-// takes raw data from the request
 $jsonRequest = file_get_contents('php://input');
-// Converts it into a PHP object
 $request = json_decode($jsonRequest, true);
 
 // TODO: validate request; validate all entities
-// TODO: use value objects for money and quantity
 print_r(DiscountsService::getDiscounts(Order::fromArray(
     $request['id'],
     $request['customer-id'],

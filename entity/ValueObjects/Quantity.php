@@ -15,4 +15,19 @@ class Quantity
     {
         return $this->quantity;
     }
+
+    public function add(Quantity $quantityToAdd): Quantity
+    {
+        return new self($this->getQuantity() + $quantityToAdd->getQuantity());
+    }
+
+    public function greaterThanOrEqual(int $quantityToCompare): bool
+    {
+        return $this->quantity >= $quantityToCompare;
+    }
+
+    public function isLessThan(int $quantityToCompare): bool
+    {
+        return $this->quantity < $quantityToCompare;
+    }
 }

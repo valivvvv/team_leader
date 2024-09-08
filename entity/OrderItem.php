@@ -3,16 +3,17 @@
 namespace entity;
 
 use entity\ValueObjects\Money;
+use entity\ValueObjects\Quantity;
 
 class OrderItem {
     private string $productId;
-    private string $quantity;
+    private Quantity $quantity;
     private Money $unitPrice;
     private Money $total;
 
     public function __construct(string $productId, string $quantity, string $unitPrice, string $total) {
         $this->productId = $productId;
-        $this->quantity = $quantity;
+        $this->quantity = Quantity::make($quantity);
         $this->unitPrice = Money::make($unitPrice);
         $this->total = Money::make($total);
     }
@@ -22,7 +23,7 @@ class OrderItem {
         return $this->productId;
     }
 
-    public function getQuantity(): string
+    public function getQuantity(): Quantity
     {
         return $this->quantity;
     }
@@ -37,4 +38,8 @@ class OrderItem {
         return $this->total;
     }
 
+    public function addQuantity(Quantity $quantityToAdd): Quantity
+    {
+        return $this->quantity->add($quantityToAdd);
+    }
 }

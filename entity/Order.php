@@ -3,6 +3,7 @@
 namespace entity;
 
 use entity\ValueObjects\Money;
+use entity\ValueObjects\Quantity;
 
 class Order
 {
@@ -48,16 +49,16 @@ class Order
         return $this->total;
     }
 
-    public function addItemQuantity(string $productId, int $quantityToAdd): Order
+    public function addItemQuantity(string $productId, Quantity $quantityToAdd): Order
     {
         $items = array_map(static function (OrderItem $item) use ($productId, $quantityToAdd) {
             $quantity = $item->getProductId() === $productId
-                ? $item->getQuantity() + $quantityToAdd
-                :$item->getQuantity();
+                ? $item->addQuantity($quantityToAdd)
+                : $item->getQuantity();
 
             return [
                 'product-id' => $item->getProductId(),
-                'quantity' => $quantity,
+                'quantity' => $quantity->getQuantity(),
                 'unit-price' => $item->getUnitPrice()->getAmount(),
                 'total' => $item->getTotal()->getAmount()
             ];

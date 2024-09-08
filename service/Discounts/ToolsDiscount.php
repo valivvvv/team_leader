@@ -5,6 +5,7 @@ namespace service\Discounts;
 use entity\Category;
 use entity\DiscountedOrder;
 use entity\OrderItem;
+use entity\ValueObjects\Quantity;
 use repository\ProductRepository;
 
 class ToolsDiscount
@@ -15,7 +16,7 @@ class ToolsDiscount
 
     public static function applyDiscount(DiscountedOrder $discountedOrder): DiscountedOrder
     {
-        $toolsQuantity = 0;
+        $toolsQuantity = Quantity::make(0);
         $cheapestToolPrice = null;
 
         foreach($discountedOrder->getOrder()->getItems() as $orderItem) {
@@ -24,7 +25,7 @@ class ToolsDiscount
             $product = ProductRepository::findById($orderItem->getProductId());
 
             if ($product->getCategory() === Category::TOOLS) {
-                $toolsQuantity += $orderItem->getQuantity();
+                $toolsQuantity = $toolsQuantity->add($orderItem->getQuantity());
 
                 if ($cheapestToolPrice === null) {
                     $cheapestToolPrice = $orderItem->getUnitPrice();
@@ -34,7 +35,7 @@ class ToolsDiscount
             }
         }
 
-        if ($toolsQuantity < self::REQUIRED_QUANTITY) {
+        if ($toolsQuantity->isLessThan(self::REQUIRED_QUANTITY)) {
             return $discountedOrder;
         }
 
