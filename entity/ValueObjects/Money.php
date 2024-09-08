@@ -37,4 +37,9 @@ class Money
     {
         return $this->amount < $money->getAmount();
     }
+
+    public function isCheaperOrEqualThan(Money $money): bool
+    {
+        return $this->amount <= $money->getAmount();
+    }
 }

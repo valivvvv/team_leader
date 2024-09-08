@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace service\Discounts;
 
 use entity\DiscountedOrder;
+use entity\ValueObjects\Money;
 use repository\CustomerRepository;
 
 class WholeOrderDiscount
@@ -17,7 +18,7 @@ class WholeOrderDiscount
     {
         $customer = CustomerRepository::findById($discountedOrder->getOrder()->getCustomerId());
 
-        if ((float)$customer->getRevenue()->getAmount() <= (float)self::REVENUE_THRESHOLD) {
+        if ($customer->getRevenue()->isCheaperOrEqualThan(Money::make((float)self::REVENUE_THRESHOLD))) {
             return $discountedOrder;
         }
 
