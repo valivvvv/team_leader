@@ -63,4 +63,14 @@ class DiscountedOrder
             true
         );
     }
+
+    public function toArray(): array
+    {
+        return [
+            'order' => $this->order->toArray(),
+            'discounted_total' => $this->discountedTotal->getAmount(),
+            'discount_messages' => $this->discountMessages,
+            'is_discounted' => $this->isDiscounted
+        ];
+    }
 }

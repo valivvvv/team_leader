@@ -71,4 +71,16 @@ class Order
             $this->total->getAmount()
         );
     }
+
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'customer_id' => $this->customerId,
+            'items' => array_map(static function (OrderItem $item) {
+                return $item->toArray();
+            }, $this->items),
+            'total' => $this->total->getAmount()
+        ];
+    }
 }

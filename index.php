@@ -21,11 +21,16 @@ use service\DiscountsService;
 $jsonRequest = file_get_contents('php://input');
 $request = json_decode($jsonRequest, true);
 
-// TODO: validate request; validate all entities
-print_r(DiscountsService::getDiscounts(Order::fromArray(
-    $request['id'],
-    $request['customer-id'],
-    $request['items'],
-    $request['total']
-)));
+$discountedOrder = DiscountsService::getDiscounts(
+    Order::fromArray(
+        $request['id'],
+        $request['customer-id'],
+        $request['items'],
+        $request['total']
+    )
+);
+
+header('Content-Type: application/json');
+echo(json_encode($discountedOrder->toArray()));
+
 

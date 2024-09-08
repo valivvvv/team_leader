@@ -42,4 +42,14 @@ class OrderItem {
     {
         return $this->quantity->add($quantityToAdd);
     }
+
+    public function toArray(): array
+    {
+        return [
+            'product_id' => $this->productId,
+            'quantity' => $this->quantity->getQuantity(),
+            'unit_price' => $this->unitPrice->getAmount(),
+            'total' => $this->total->getAmount()
+        ];
+    }
 }
