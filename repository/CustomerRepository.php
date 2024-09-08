@@ -1,11 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace repository;
 
 use entity\Customer;
 
 class CustomerRepository
 {
+    /**
+     * @throws \Exception
+     */
     public static function findById(string $id): Customer
     {
         $json = file_get_contents(__DIR__ . '/../data/customers.json');
@@ -20,13 +25,15 @@ class CustomerRepository
             }
         }
 
-        // TODO: handle not found customer
+        if ($foundCustomer === null) {
+            throw new \Exception('Customer not found', 404);
+        }
 
         return Customer::make(
             $foundCustomer['id'],
             $foundCustomer['name'],
             $foundCustomer['since'],
-            $foundCustomer['revenue']
+            (float)$foundCustomer['revenue']
         );
     }
 }

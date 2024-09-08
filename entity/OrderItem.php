@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace entity;
 
 use entity\ValueObjects\Money;
@@ -11,7 +13,7 @@ class OrderItem {
     private Money $unitPrice;
     private Money $total;
 
-    public function __construct(string $productId, string $quantity, string $unitPrice, string $total) {
+    public function __construct(string $productId, int $quantity, float $unitPrice, float $total) {
         $this->productId = $productId;
         $this->quantity = Quantity::make($quantity);
         $this->unitPrice = Money::make($unitPrice);

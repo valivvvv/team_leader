@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace entity;
 
 use entity\ValueObjects\Money;
@@ -20,7 +22,7 @@ class Order
         $this->total = $total;
     }
 
-    public static function fromArray(string $id, string $customerId, array $items, float $total): self
+    public static function make(string $id, string $customerId, array $items, float $total): self
     {
         $orderItems = array_map(static function (array $item) {
             return new OrderItem(
@@ -64,7 +66,7 @@ class Order
             ];
         }, $this->items);
 
-        return self::fromArray(
+        return self::make(
             $this->id,
             $this->customerId,
             $items,

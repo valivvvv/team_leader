@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace entity;
 
 use entity\ValueObjects\Money;
@@ -17,7 +19,7 @@ class Customer {
         string $id,
         string $name,
         string $since,
-        string $revenue
+        float $revenue
     ): Customer {
         return new self($id, $name, $since, Money::make($revenue));
     }

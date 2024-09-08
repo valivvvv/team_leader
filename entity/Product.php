@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace entity;
 
 use entity\ValueObjects\Money;
@@ -10,7 +12,7 @@ class Product {
     private string $category;
     private Money $price;
 
-    public function __construct(string $id, string $description, string $category, string $price) {
+    public function __construct(string $id, string $description, string $category, float $price) {
         $this->id = $id;
         $this->description = $description;
         $this->category = $category;
