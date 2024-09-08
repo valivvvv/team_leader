@@ -22,7 +22,7 @@ class CustomerRepository
 
         // TODO: handle not found customer
 
-        return new Customer(
+        return Customer::make(
             $foundCustomer['id'],
             $foundCustomer['name'],
             $foundCustomer['since'],

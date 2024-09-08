@@ -6,6 +6,8 @@ require_once __DIR__ . '/entity/Product.php';
 require_once __DIR__ . '/entity/Order.php';
 require_once __DIR__ . '/entity/OrderItem.php';
 require_once __DIR__ . '/entity/DiscountedOrder.php';
+require_once __DIR__ . '/entity/ValueObjects/Money.php';
+require_once __DIR__ . '/entity/ValueObjects/Quantity.php';
 require_once __DIR__ . '/repository/CustomerRepository.php';
 require_once __DIR__ . '/repository/ProductRepository.php';
 require_once __DIR__ . '/service/DiscountsService.php';

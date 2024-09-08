@@ -2,14 +2,16 @@
 
 namespace entity;
 
+use entity\ValueObjects\Money;
+
 class Order
 {
     private string $id;
     private string $customerId;
     private array $items;
-    private string $total;
+    private Money $total;
 
-    public function __construct(string $id, string $customerId, array $items, string $total)
+    public function __construct(string $id, string $customerId, array $items, Money $total)
     {
         $this->id = $id;
         $this->customerId = $customerId;
@@ -28,7 +30,7 @@ class Order
             );
         }, $items);
 
-        return new self($id, $customerId, $orderItems, $total);
+        return new self($id, $customerId, $orderItems, Money::make($total));
     }
 
     public function getCustomerId(): string
@@ -41,29 +43,31 @@ class Order
         return $this->items;
     }
 
-    public function getTotal(): string
+    public function getTotal(): Money
     {
         return $this->total;
     }
 
     public function addItemQuantity(string $productId, int $quantityToAdd): Order
     {
+        $items = array_map(static function (OrderItem $item) use ($productId, $quantityToAdd) {
+            $quantity = $item->getProductId() === $productId
+                ? $item->getQuantity() + $quantityToAdd
+                :$item->getQuantity();
+
+            return [
+                'product-id' => $item->getProductId(),
+                'quantity' => $quantity,
+                'unit-price' => $item->getUnitPrice()->getAmount(),
+                'total' => $item->getTotal()->getAmount()
+            ];
+        }, $this->items);
+
         return self::fromArray(
             $this->id,
             $this->customerId,
-            array_map(static function (OrderItem $item) use ($productId, $quantityToAdd) {
-                $quantity = $item->getProductId() === $productId
-                    ? $item->getQuantity() + $quantityToAdd
-                    :$item->getQuantity();
-
-                return [
-                    'product-id' => $item->getProductId(),
-                    'quantity' => $quantity,
-                    'unit-price' => $item->getUnitPrice(),
-                    'total' => $item->getTotal()
-                ];
-            }, $this->items),
-            $this->total
+            $items,
+            $this->total->getAmount()
         );
     }
 }

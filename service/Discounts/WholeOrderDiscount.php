@@ -15,7 +15,7 @@ class WholeOrderDiscount
     {
         $customer = CustomerRepository::findById($discountedOrder->getOrder()->getCustomerId());
 
-        if ((float)$customer->getRevenue() <= (float)self::REVENUE_THRESHOLD) {
+        if ((float)$customer->getRevenue()->getAmount() <= (float)self::REVENUE_THRESHOLD) {
             return $discountedOrder;
         }
 

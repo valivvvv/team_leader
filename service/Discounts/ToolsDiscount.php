@@ -26,9 +26,11 @@ class ToolsDiscount
             if ($product->getCategory() === Category::TOOLS) {
                 $toolsQuantity += $orderItem->getQuantity();
 
-                $cheapestToolPrice = $cheapestToolPrice === null || $orderItem->getUnitPrice() < $cheapestToolPrice
-                    ? $orderItem->getUnitPrice()
-                    : $cheapestToolPrice;
+                if ($cheapestToolPrice === null) {
+                    $cheapestToolPrice = $orderItem->getUnitPrice();
+                } else if ($orderItem->getUnitPrice()->isCheaperThan($cheapestToolPrice)) {
+                    $cheapestToolPrice = $orderItem->getUnitPrice();
+                }
             }
         }
 
@@ -36,7 +38,7 @@ class ToolsDiscount
             return $discountedOrder;
         }
 
-        $discount = $cheapestToolPrice * (self::DISCOUNT_PERCENT / 100);
+        $discount = $cheapestToolPrice->getDiscountPercentValue(self::DISCOUNT_PERCENT);
 
         return $discountedOrder->applyDiscountValue(
             $discount,

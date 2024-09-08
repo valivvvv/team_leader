@@ -2,19 +2,29 @@
 
 namespace entity;
 
+use entity\ValueObjects\Money;
+
 class DiscountedOrder
 {
     private Order $order;
-    private bool $isDiscounted;
-    private string $discountedTotal;
+    private Money $discountedTotal;
     private array $discountMessages;
+    private bool $isDiscounted;
 
-    public function __construct(Order $order)
-    {
+    public function __construct(Order $order,
+                                Money $discountedTotal,
+                                array $discountMessages = [],
+                                bool $isDiscounted = false
+    ) {
         $this->order = $order;
-        $this->isDiscounted = false;
-        $this->discountedTotal = $order->getTotal();
-        $this->discountMessages = [];
+        $this->discountedTotal = $discountedTotal;
+        $this->discountMessages = $discountMessages;
+        $this->isDiscounted = $isDiscounted;
+    }
+
+    public static function fromOrder(Order $order): self
+    {
+        return new self($order,  $order->getTotal());
     }
 
     public function getOrder(): Order
@@ -24,37 +34,32 @@ class DiscountedOrder
 
     public function applyDiscountPercent(int $discountPercent, string $discountMessage): DiscountedOrder
     {
-        $discountedOrder = new DiscountedOrder($this->order);
-
-        $discountedOrder->discountedTotal = $this->discountedTotal * (1 - $discountPercent / 100);
-
-        $discountedOrder->isDiscounted = true;
-        $discountedOrder->discountMessages = [...$this->discountMessages, $discountMessage];
-
-        return $discountedOrder;
+        return new DiscountedOrder(
+            $this->order,
+            $this->discountedTotal->applyDiscountPercent($discountPercent),
+            [...$this->discountMessages, $discountMessage],
+            true
+        );
     }
 
-    public function applyDiscountValue(float $discountValue, string $discountMessage): DiscountedOrder
+    public function applyDiscountValue(Money $discountValue, string $discountMessage): DiscountedOrder
     {
-        $discountedOrder = new DiscountedOrder($this->order);
 
-        $discountedOrder->discountedTotal = $this->discountedTotal - $discountValue;
-
-        $discountedOrder->isDiscounted = true;
-        $discountedOrder->discountMessages = [...$this->discountMessages, $discountMessage];
-
-        return $discountedOrder;
+        return new DiscountedOrder(
+            $this->order,
+            $this->discountedTotal->applyDiscountValue($discountValue),
+            [...$this->discountMessages, $discountMessage],
+            true
+        );
     }
 
     public function addItemQuantity(string $productId, int $quantityToAdd, string $discountMessage): DiscountedOrder
     {
-        $order = $this->order->addItemQuantity($productId, $quantityToAdd);
-
-        $discountedOrder = new DiscountedOrder($order);
-
-        $discountedOrder->isDiscounted = true;
-        $discountedOrder->discountMessages = [...$this->discountMessages, $discountMessage];
-
-        return $discountedOrder;
+        return new DiscountedOrder(
+            $this->order->addItemQuantity($productId, $quantityToAdd),
+            $this->discountedTotal,
+            [...$this->discountMessages, $discountMessage],
+            true
+        );
     }
 }

@@ -13,7 +13,7 @@ class DiscountsService
 
     public static function getDiscounts(Order $order): DiscountedOrder
     {
-        $discountedOrder = new DiscountedOrder($order);
+        $discountedOrder = DiscountedOrder::fromOrder($order);
 
         $discountedOrder = SwitchesDiscount::applyDiscount($discountedOrder);
         $discountedOrder = ToolsDiscount::applyDiscount($discountedOrder);

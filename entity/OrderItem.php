@@ -2,17 +2,19 @@
 
 namespace entity;
 
+use entity\ValueObjects\Money;
+
 class OrderItem {
     private string $productId;
     private string $quantity;
-    private string $unitPrice;
-    private string $total;
+    private Money $unitPrice;
+    private Money $total;
 
     public function __construct(string $productId, string $quantity, string $unitPrice, string $total) {
         $this->productId = $productId;
         $this->quantity = $quantity;
-        $this->unitPrice = $unitPrice;
-        $this->total = $total;
+        $this->unitPrice = Money::make($unitPrice);
+        $this->total = Money::make($total);
     }
 
     public function getProductId(): string
@@ -25,12 +27,12 @@ class OrderItem {
         return $this->quantity;
     }
 
-    public function getUnitPrice(): string
+    public function getUnitPrice(): Money
     {
         return $this->unitPrice;
     }
 
-    public function getTotal(): string
+    public function getTotal(): Money
     {
         return $this->total;
     }

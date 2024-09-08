@@ -20,8 +20,7 @@ class ProductRepository
             }
         }
 
-        // TODO: handle not found customer
-
+        // TODO: handle not found product
 
         return new Product(
             $foundProduct['id'],
